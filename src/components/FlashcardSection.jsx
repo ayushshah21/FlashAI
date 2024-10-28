@@ -1,12 +1,8 @@
 // src/components/FlashcardSection.tsx
-
-import React from "react";
 import { motion } from "framer-motion";
 
-
-
-const FlashcardSection: React.FC = () => {
-  const fadeInWithDelay = (delay: number) => ({
+const FlashcardSection = () => {
+  const fadeInWithDelay = (delay) => ({
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
     transition: { duration: 2, delay },

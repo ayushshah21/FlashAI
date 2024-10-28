@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import "./index.css";
-import PricingSection from "./PricingSection";
-import FlashcardSection from "./FlashcardSection";
-import { Link } from "react-router-dom";
+import PricingSection from "../components/PricingSection";
+import FlashcardSection from "../components/FlashcardSection";
+import React from "react";
+import { GoogleLogin } from "@react-oauth/google";
+
+import "../index.css";
 
 const images = ["/ai-3.webp", "/ai-4.png", "/ai-5.png", "/ai-6.png"];
 
-const LandingPage: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+const LoginPage = () => {
+  // eslint-disable-next-line no-unused-vars
   const [scrollY, setScrollY] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -21,7 +23,7 @@ const LandingPage: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000);
+    }, 2000);
     return () => clearInterval(interval);
   }, []);
 
@@ -31,11 +33,18 @@ const LandingPage: React.FC = () => {
     transition: { duration: 2 },
   };
 
-  const fadeInWithDelay = (delay: number) => ({
+  const fadeInWithDelay = (delay) => ({
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
     transition: { duration: 2, delay },
   });
+
+  const responseMessage = (response) => {
+    console.log(response);
+  };
+  const errorMessage = (error) => {
+    console.log(error);
+  };
 
   return (
     <div className="landing-page">
@@ -54,16 +63,25 @@ const LandingPage: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 2 }}
             >
-              AI Superpowers for your flashcards
+              AI Superpowers for your Learning
             </motion.h2>
             <motion.p className="hero-description" {...fadeIn}>
               Create personalized AI-powered flashcards in seconds. Boost your
               study efficiency and retain information like never before.
             </motion.p>
-            <motion.div {...fadeIn}>
-              <Link to="/generate" className="btn btn-primary">
-                Generate Flashcards</Link>
-            </motion.div>
+            <motion.div {...fadeIn} className="button-container">
+              <div className="button-wrapper">
+                <div>
+                  <h2>React Google Login</h2>
+                  <br />
+                  <br />
+                  <GoogleLogin
+                    onSuccess={responseMessage}
+                    onError={errorMessage}
+                  />
+                </div>
+              </div>
+            </motion.div>{" "}
           </div>
         </motion.section>
 
@@ -131,4 +149,4 @@ const LandingPage: React.FC = () => {
   );
 };
 
-export default LandingPage;
+export default LoginPage;
